@@ -5,11 +5,9 @@ from datetime import datetime
 
 print(">>> Mengkalkulasi Harga Komoditas Kopi (Kurs USD to IDR)...")
 
-# Mengambil kurs pertukaran uang secara real-time
 response = requests.get("https://api.frankfurter.app/latest?from=USD&to=IDR")
 kurs_idr = response.json()['rates']['IDR']
 
-# Harga dasar kopi (estimasi USD per kg)
 kopi_base = {
     "Arabika Gayo (Premium)": 5.5,
     "Arabika Kintamani": 6.0,
@@ -22,7 +20,7 @@ data_hasil = []
 for nama, harga_usd in kopi_base.items():
     harga_lokal = round(harga_usd * kurs_idr, 2)
     data_hasil.append({
-        "tanggal": datetime.now().strftime("%Y-%m-%d"),
+        "tanggal_update": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "komoditas": nama,
         "harga_dasar_usd": harga_usd,
         "kurs_terkini_idr": kurs_idr,
@@ -36,4 +34,4 @@ print(f"  Berhasil menyimpan {len(df)} baris data ke CSV.")
 os.system('git add .')
 os.system(f'git commit -m "Update Harian Harga Kopi: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"')
 os.system('git push origin main >nul 2>&1')
-print("✅ Repo HargaKomoditasKopi berhasil di-push!")
+print("[SUKSES] Repo HargaKomoditasKopi berhasil di-push!")
